@@ -8,7 +8,9 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/Ysoding/pokemon-wiki-spider/collect"
 	"github.com/Ysoding/pokemon-wiki-spider/engine"
+	"github.com/Ysoding/pokemon-wiki-spider/parse/pokemon"
 	"go.uber.org/zap"
 )
 
@@ -23,7 +25,7 @@ func main() {
 	}
 }
 
-func run(ctx context.Context) error {
+func run(context.Context) error {
 	shutdown := make(chan os.Signal, 1)
 	signal.Notify(shutdown, syscall.SIGINT, syscall.SIGTERM)
 
@@ -32,9 +34,18 @@ func run(ctx context.Context) error {
 	logger, _ := zap.NewProduction()
 	defer logger.Sync()
 
+	seeds := pokemon.Tasks
+	e := engine.NewEngine(engine.WithLogger(logger),
+		engine.WithScheduler(engine.NewSchedule()),
+		engine.WithSeeds(seeds),
+		engine.WithFetcher(collect.BrowserFetch{
+			Timeout: 5 * time.Second,
+			Logger:  logger,
+		}))
+
 	go func() {
 		logger.Sugar().Infow("startup")
-		serverErrorSignal <- engine.Run(ctx, logger)
+		serverErrorSignal <- e.Run()
 	}()
 
 	// shutdown
@@ -47,11 +58,7 @@ func run(ctx context.Context) error {
 	case sig := <-shutdown:
 		logger.Sugar().Infow("shutdown", "status", "shutdown started", "signal", sig)
 		defer logger.Sugar().Infow("shutdown", "status", "shutdown complete", "signal", sig)
-
-		ctx, cancel := context.WithTimeout(ctx, time.Second*5)
-		defer cancel()
-
-		<-ctx.Done()
+		e.Shutdown()
 	}
 	return nil
 }

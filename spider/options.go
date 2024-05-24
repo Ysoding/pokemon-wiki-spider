@@ -11,6 +11,7 @@ type Options struct {
 	WaitTime int64 // second
 	MaxDepth int64
 	logger   zap.Logger
+	Fetcher  Fetcher
 }
 
 var defaultOptions = Options{
@@ -46,5 +47,11 @@ func WithCookie(cookie string) Option {
 func WithWaitTime(waitTime int64) Option {
 	return func(opts *Options) {
 		opts.WaitTime = waitTime
+	}
+}
+
+func WithFetcher(fetcher Fetcher) Option {
+	return func(opts *Options) {
+		opts.Fetcher = fetcher
 	}
 }
