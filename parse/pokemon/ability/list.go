@@ -1,4 +1,4 @@
-package pokemon
+package ability
 
 import (
 	"bytes"
@@ -12,17 +12,18 @@ import (
 )
 
 type Data struct {
-	Index      int
-	NameZh     string
-	NameJa     string
-	NameEn     string
-	Form       string // 地区形态
-	Type1      string
-	Type2      string
-	Generation int
+	Index       int
+	NameZh      string
+	Form        string // 地区形态
+	Type1       string
+	Type2       string
+	Ability1    string
+	Ability2    string
+	HideAbility string
+	Generation  int
 }
 
-var PokemonListTask = &spider.Task{
+var PokemonAbilityListTask = &spider.Task{
 	Options: spider.Options{
 		Name:     "pokemon_list",
 		Cookie:   "",
@@ -33,7 +34,7 @@ var PokemonListTask = &spider.Task{
 		Root: func() ([]*spider.Request, error) {
 			roots := []*spider.Request{
 				{
-					URL:      global.PokemonListURL,
+					URL:      global.PokemonAbilityListURL,
 					Method:   "GET",
 					RuleName: "list",
 				},
@@ -42,12 +43,12 @@ var PokemonListTask = &spider.Task{
 		},
 
 		Trunk: map[string]*spider.Rule{
-			"list": {ParseFunc: ParsePokemonList},
+			"list": {ParseFunc: parsePokemonAbilityList},
 		},
 	},
 }
 
-func ParsePokemonList(ctx *spider.Context) (spider.ParseResult, error) {
+func parsePokemonAbilityList(ctx *spider.Context) (spider.ParseResult, error) {
 	var items []*Data
 
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(ctx.Body))
@@ -72,38 +73,49 @@ func ParsePokemonList(ctx *spider.Context) (spider.ParseResult, error) {
 
 func parseElement(ele *goquery.Selection, generation int) (*Data, error) {
 
-	indexStr := strings.TrimSpace(ele.Find("td").Eq(0).Text())
-	index, err := strconv.Atoi(strings.ReplaceAll(indexStr, "#", ""))
+	indexStr := strings.TrimSpace(ele.Children().Eq(0).Text())
+	index, err := strconv.Atoi(indexStr)
 	if err != nil {
 		return nil, fmt.Errorf("parse index err: %v", err)
 	}
 
-	nameZh := strings.TrimSpace(ele.Find("td").Eq(3).Text())
-	smallEle := ele.Find("td").Eq(3).Find("small")
+	nameZh := strings.TrimSpace(ele.Children().Eq(2).Text())
+	smallEle := ele.Children().Eq(2).Find("small")
 	form := ""
 	if smallEle != nil {
 		form = strings.TrimSpace(smallEle.Text())
 	}
 
-	nameJa := strings.TrimSpace(ele.Find("td").Eq(4).Text())
-	nameEn := strings.TrimSpace(ele.Find("td").Eq(5).Text())
-
-	type1 := strings.TrimSpace(ele.Find("td").Eq(6).Text())
-	type2Ele := ele.Find("td").Eq(7)
+	type1 := strings.TrimSpace(ele.Children().Eq(3).Text())
+	type2Ele := ele.Children().Eq(4)
 	type2 := ""
 	if !type2Ele.HasClass("hide") {
 		type2 = strings.TrimSpace(type2Ele.Text())
 	}
 
+	ability1 := strings.TrimSpace(ele.Children().Eq(5).Text())
+	ability2Ele := ele.Children().Eq(6)
+	ability2 := ""
+	if !ability2Ele.HasClass("hide") {
+		ability2 = strings.TrimSpace(ability2Ele.Text())
+	}
+
+	hideAbilityEle := ele.Children().Eq(7).Find("a")
+	hideAbility := "无"
+	if hideAbilityEle != nil {
+		ability2 = strings.TrimSpace(hideAbilityEle.Text())
+	}
+
 	data := &Data{
-		Index:      index,
-		NameZh:     nameZh,
-		NameJa:     nameJa,
-		NameEn:     nameEn,
-		Form:       form,
-		Type1:      type1,
-		Type2:      type2,
-		Generation: generation,
+		Index:       index,
+		NameZh:      nameZh,
+		Form:        form,
+		Type1:       type1,
+		Type2:       type2,
+		Ability1:    ability1,
+		Ability2:    ability2,
+		HideAbility: hideAbility,
+		Generation:  generation,
 	}
 
 	return data, nil
@@ -112,7 +124,7 @@ func parseElement(ele *goquery.Selection, generation int) (*Data, error) {
 func getData(doc *goquery.Document, locationName string, generation int) []*Data {
 	var res []*Data
 
-	doc.Find(".s-" + locationName + " > tbody > tr").Each(func(i int, s *goquery.Selection) {
+	doc.Find(".bg-" + locationName + " > tbody > tr").Each(func(i int, s *goquery.Selection) {
 		if i < 2 {
 			return
 		}
