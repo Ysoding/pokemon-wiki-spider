@@ -23,7 +23,6 @@ type Crawler struct {
 	failures     map[string]*spider.Request // id -> request
 	failuresLock sync.Mutex
 
-	done chan bool
 	options
 }
 
@@ -39,7 +38,6 @@ func NewEngine(opts ...Option) *Crawler {
 		visisted: make(map[string]bool),
 		failures: make(map[string]*spider.Request),
 		options:  options,
-		done:     make(chan bool),
 	}
 
 	return c
@@ -81,13 +79,11 @@ func (c *Crawler) Run() error {
 	go c.handleSeeds()
 	go c.handleResult()
 	wg.Wait()
-	<-c.done
 	return nil
 }
 
 func (c *Crawler) Shutdown() {
 	c.scheduler.Close()
-	c.done <- true
 }
 
 func (c *Crawler) handleResult() {
