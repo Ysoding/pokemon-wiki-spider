@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/Ysoding/pokemon-wiki-spider/collect"
+	"github.com/Ysoding/pokemon-wiki-spider/conf"
 	"github.com/Ysoding/pokemon-wiki-spider/engine"
 	"github.com/Ysoding/pokemon-wiki-spider/parse/pokemon"
 	"go.uber.org/zap"
@@ -31,7 +32,11 @@ func run(context.Context) error {
 
 	serverErrorSignal := make(chan error, 1)
 
-	logger, _ := zap.NewProduction()
+	// The default ProductionConfig uses the sampling feature to silently drop some log rows.
+	// SamplingConfig sets a sampling strategy for the logger. Sampling caps the global CPU and I/O load that logging puts on your process while attempting to preserve a representative subset of your logs.
+	// Values configured here are per-second. See zapcore.NewSampler for details.
+	// logger, _ := zap.NewDevelopment()
+	logger := conf.CreateLogger()
 	defer logger.Sync()
 
 	seeds := pokemon.Tasks
