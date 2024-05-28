@@ -4,6 +4,7 @@ var (
 	PokemonListURL        = "https://wiki.52poke.com/wiki/宝可梦列表（按全国图鉴编号）"
 	PokemonAbilityListURL = "https://wiki.52poke.com/zh-hans/特性列表（按全国图鉴编号）"
 	AbilityListURL        = "https://wiki.52poke.com/zh-hans/特性列表"
+	PokemonNatureListURL  = "https://wiki.52poke.com/zh-hans/性格"
 
 	DefaultWorkerCount = 16
 

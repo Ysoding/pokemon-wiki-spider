@@ -352,3 +352,39 @@
 {"level":"info","timestamp":"2024-05-28T10:48:41.157+0800","msg":"crawler","got item":{"Index":311,"NameZh":"毒傀儡","NameJa":"どくくぐつ","NameEn":"Poison Puppeteer","Description":"因桃歹郎的招式而陷入中毒状态的对手同时也会陷入混乱状态。","CommonCnt":1,"HiddenCnt":0,"Generation":9}}
 {"level":"info","timestamp":"2024-05-28T10:48:48.621+0800","msg":"shutdown","status":"shutdown started","signal":"interrupt"}
 {"level":"info","timestamp":"2024-05-28T10:48:48.621+0800","msg":"shutdown","status":"shutdown complete","signal":"interrupt"}
+{"level":"info","timestamp":"2024-05-28T12:33:48.628+0800","msg":"startup"}
+{"level":"info","timestamp":"2024-05-28T12:33:48.628+0800","msg":"parse task","Name":"nature_list"}
+{"level":"info","timestamp":"2024-05-28T12:33:48.628+0800","msg":"request","URL":"https://wiki.52poke.com/zh-hans/性格"}
+{"level":"info","timestamp":"2024-05-28T12:33:48.628+0800","msg":"parse task done"}
+{"level":"info","timestamp":"2024-05-28T12:33:48.628+0800","msg":"start parse req","URL":"https://wiki.52poke.com/zh-hans/性格"}
+{"level":"info","timestamp":"2024-05-28T12:33:48.628+0800","msg":"start fetch body","URL":"https://wiki.52poke.com/zh-hans/性格"}
+{"level":"info","timestamp":"2024-05-28T12:33:49.212+0800","msg":"start call parse func","URL":"https://wiki.52poke.com/zh-hans/性格"}
+{"level":"info","timestamp":"2024-05-28T12:33:49.214+0800","msg":"parse req done","URL":"https://wiki.52poke.com/zh-hans/性格"}
+{"level":"info","timestamp":"2024-05-28T12:33:49.214+0800","msg":"crawler","got item":{"NameZh":"性格","NameJa":"日文名","NameEn":"英文名","EasyGrowthAbility":"容易成长的能力","HardGrowthAbility":"不容易成长的能力","FavoriteTaste":"喜欢的口味","DislikedTaste":"不喜欢的口味"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"勤奋","NameJa":"がんばりや","NameEn":"Hardy","EasyGrowthAbility":"无","HardGrowthAbility":"无","FavoriteTaste":"无","DislikedTaste":"无"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"怕寂寞","NameJa":"さみしがり","NameEn":"Lonely","EasyGrowthAbility":"攻击","HardGrowthAbility":"防御","FavoriteTaste":"辣","DislikedTaste":"酸"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"固执","NameJa":"いじっぱり","NameEn":"Adamant","EasyGrowthAbility":"攻击","HardGrowthAbility":"特攻","FavoriteTaste":"辣","DislikedTaste":"涩"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"顽皮","NameJa":"やんちゃ","NameEn":"Naughty","EasyGrowthAbility":"攻击","HardGrowthAbility":"特防","FavoriteTaste":"辣","DislikedTaste":"苦"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"勇敢","NameJa":"ゆうかん","NameEn":"Brave","EasyGrowthAbility":"攻击","HardGrowthAbility":"速度","FavoriteTaste":"辣","DislikedTaste":"甜"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"大胆","NameJa":"ずぶとい","NameEn":"Bold","EasyGrowthAbility":"防御","HardGrowthAbility":"攻击","FavoriteTaste":"酸","DislikedTaste":"辣"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"坦率","NameJa":"すなお","NameEn":"Docile","EasyGrowthAbility":"无","HardGrowthAbility":"无","FavoriteTaste":"无","DislikedTaste":"无"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"淘气","NameJa":"わんぱく","NameEn":"Impish","EasyGrowthAbility":"防御","HardGrowthAbility":"特攻","FavoriteTaste":"酸","DislikedTaste":"涩"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"乐天","NameJa":"のうてんき","NameEn":"Lax","EasyGrowthAbility":"防御","HardGrowthAbility":"特防","FavoriteTaste":"酸","DislikedTaste":"苦"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"悠闲","NameJa":"のんき","NameEn":"Relaxed","EasyGrowthAbility":"防御","HardGrowthAbility":"速度","FavoriteTaste":"酸","DislikedTaste":"甜"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"内敛","NameJa":"ひかえめ","NameEn":"Modest","EasyGrowthAbility":"特攻","HardGrowthAbility":"攻击","FavoriteTaste":"涩","DislikedTaste":"辣"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"慢吞吞","NameJa":"おっとり","NameEn":"Mild","EasyGrowthAbility":"特攻","HardGrowthAbility":"防御","FavoriteTaste":"涩","DislikedTaste":"酸"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"害羞","NameJa":"てれや","NameEn":"Bashful","EasyGrowthAbility":"无","HardGrowthAbility":"无","FavoriteTaste":"无","DislikedTaste":"无"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"马虎","NameJa":"うっかりや","NameEn":"Rash","EasyGrowthAbility":"特攻","HardGrowthAbility":"特防","FavoriteTaste":"涩","DislikedTaste":"苦"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"冷静","NameJa":"れいせい","NameEn":"Quiet","EasyGrowthAbility":"特攻","HardGrowthAbility":"速度","FavoriteTaste":"涩","DislikedTaste":"甜"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"温和","NameJa":"おだやか","NameEn":"Calm","EasyGrowthAbility":"特防","HardGrowthAbility":"攻击","FavoriteTaste":"苦","DislikedTaste":"辣"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"温顺","NameJa":"おとなしい","NameEn":"Gentle","EasyGrowthAbility":"特防","HardGrowthAbility":"防御","FavoriteTaste":"苦","DislikedTaste":"酸"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"慎重","NameJa":"しんちょう","NameEn":"Careful","EasyGrowthAbility":"特防","HardGrowthAbility":"特攻","FavoriteTaste":"苦","DislikedTaste":"涩"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"浮躁","NameJa":"きまぐれ","NameEn":"Quirky","EasyGrowthAbility":"无","HardGrowthAbility":"无","FavoriteTaste":"无","DislikedTaste":"无"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"自大","NameJa":"なまいき","NameEn":"Sassy","EasyGrowthAbility":"特防","HardGrowthAbility":"速度","FavoriteTaste":"苦","DislikedTaste":"甜"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"胆小","NameJa":"おくびょう","NameEn":"Timid","EasyGrowthAbility":"速度","HardGrowthAbility":"攻击","FavoriteTaste":"甜","DislikedTaste":"辣"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"急躁","NameJa":"せっかち","NameEn":"Hasty","EasyGrowthAbility":"速度","HardGrowthAbility":"防御","FavoriteTaste":"甜","DislikedTaste":"酸"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"爽朗","NameJa":"ようき","NameEn":"Jolly","EasyGrowthAbility":"速度","HardGrowthAbility":"特攻","FavoriteTaste":"甜","DislikedTaste":"涩"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"天真","NameJa":"むじゃき","NameEn":"Naive","EasyGrowthAbility":"速度","HardGrowthAbility":"特防","FavoriteTaste":"甜","DislikedTaste":"苦"}}
+{"level":"info","timestamp":"2024-05-28T12:33:49.215+0800","msg":"crawler","got item":{"NameZh":"认真","NameJa":"まじめ","NameEn":"Serious","EasyGrowthAbility":"无","HardGrowthAbility":"无","FavoriteTaste":"无","DislikedTaste":"无"}}
+{"level":"info","timestamp":"2024-05-28T12:33:54.948+0800","msg":"shutdown","status":"shutdown started","signal":"interrupt"}
+{"level":"info","timestamp":"2024-05-28T12:33:54.949+0800","msg":"shutdown","status":"shutdown complete","signal":"interrupt"}
