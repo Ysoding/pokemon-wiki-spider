@@ -11,7 +11,7 @@ import (
 	"github.com/Ysoding/pokemon-wiki-spider/spider"
 )
 
-type Data struct {
+type PokemonAbilityData struct {
 	Index       int
 	NameZh      string
 	Form        string // 地区形态
@@ -25,7 +25,7 @@ type Data struct {
 
 var PokemonAbilityListTask = &spider.Task{
 	Options: spider.Options{
-		Name:     "pokemon_list",
+		Name:     "pokemon_ability_list",
 		Cookie:   "",
 		MaxDepth: 5,
 		WaitTime: 3,
@@ -49,7 +49,7 @@ var PokemonAbilityListTask = &spider.Task{
 }
 
 func parsePokemonAbilityList(ctx *spider.Context) (spider.ParseResult, error) {
-	var items []*Data
+	var items []*PokemonAbilityData
 
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(ctx.Body))
 	if err != nil {
@@ -57,7 +57,7 @@ func parsePokemonAbilityList(ctx *spider.Context) (spider.ParseResult, error) {
 	}
 
 	for idx, location := range global.LocationNameList {
-		items = append(items, getData(doc, location, idx+1)...)
+		items = append(items, getPokemonAbilityData(doc, location, idx+1)...)
 	}
 
 	var result []interface{}
@@ -71,7 +71,7 @@ func parsePokemonAbilityList(ctx *spider.Context) (spider.ParseResult, error) {
 	}, nil
 }
 
-func parseElement(ele *goquery.Selection, generation int) (*Data, error) {
+func parsePokemonAbilityElement(ele *goquery.Selection, generation int) (*PokemonAbilityData, error) {
 
 	indexStr := strings.TrimSpace(ele.Children().Eq(0).Text())
 	index, err := strconv.Atoi(indexStr)
@@ -106,7 +106,7 @@ func parseElement(ele *goquery.Selection, generation int) (*Data, error) {
 		ability2 = strings.TrimSpace(hideAbilityEle.Text())
 	}
 
-	data := &Data{
+	data := &PokemonAbilityData{
 		Index:       index,
 		NameZh:      nameZh,
 		Form:        form,
@@ -121,15 +121,15 @@ func parseElement(ele *goquery.Selection, generation int) (*Data, error) {
 	return data, nil
 }
 
-func getData(doc *goquery.Document, locationName string, generation int) []*Data {
-	var res []*Data
+func getPokemonAbilityData(doc *goquery.Document, locationName string, generation int) []*PokemonAbilityData {
+	var res []*PokemonAbilityData
 
 	doc.Find(".bg-" + locationName + " > tbody > tr").Each(func(i int, s *goquery.Selection) {
 		if i < 2 {
 			return
 		}
 
-		data, err := parseElement(s, generation)
+		data, err := parsePokemonAbilityElement(s, generation)
 		if err != nil {
 			fmt.Println(err)
 			return

@@ -6,6 +6,7 @@ import (
 )
 
 var Tasks = []*spider.Task{
-	PokemonListTask,
-	ability.PokemonAbilityListTask,
+	// PokemonListTask,
+	// ability.PokemonAbilityListTask,
+	ability.AbilityListTask,
 }

@@ -3,7 +3,9 @@ package global
 var (
 	PokemonListURL        = "https://wiki.52poke.com/wiki/宝可梦列表（按全国图鉴编号）"
 	PokemonAbilityListURL = "https://wiki.52poke.com/zh-hans/特性列表（按全国图鉴编号）"
-	DefaultWorkerCount    = 16
+	AbilityListURL        = "https://wiki.52poke.com/zh-hans/特性列表"
+
+	DefaultWorkerCount = 16
 
 	LocationNameList = []string{
 		"关都",
