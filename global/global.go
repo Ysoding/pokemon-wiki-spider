@@ -6,6 +6,7 @@ var (
 	AbilityListURL        = "https://wiki.52poke.com/zh-hans/特性列表"
 	PokemonNatureListURL  = "https://wiki.52poke.com/zh-hans/性格"
 	PokemonMoveListURL    = "https://wiki.52poke.com/zh-hans/招式列表"
+	PokemonItemListURL    = "https://wiki.52poke.com/zh-hans/道具列表"
 
 	DefaultWorkerCount = 16
 
