@@ -66,22 +66,15 @@ func ParsePokemonNatureList(ctx *spider.Context) (spider.ParseResult, error) {
 	}, nil
 }
 
-func formatStr(s string) string {
-	if s == "—" {
-		return "无"
-	}
-	return s
-}
-
 func parseElement(ele *goquery.Selection) (*Data, error) {
 	nameZh := strings.TrimSpace(ele.Children().Eq(0).Text())
 	nameJa := strings.TrimSpace(ele.Children().Eq(1).Text())
 	nameEn := strings.TrimSpace(ele.Children().Eq(2).Text())
 
-	easyGrowthAbility := formatStr(strings.TrimSpace(ele.Children().Eq(3).Text()))
-	hardGrowthAbility := formatStr(strings.TrimSpace(ele.Children().Eq(4).Text()))
-	favoriteTaste := formatStr(strings.TrimSpace(ele.Children().Eq(5).Text()))
-	dislikedTaste := formatStr(strings.TrimSpace(ele.Children().Eq(6).Text()))
+	easyGrowthAbility := strings.TrimSpace(ele.Children().Eq(3).Text())
+	hardGrowthAbility := strings.TrimSpace(ele.Children().Eq(4).Text())
+	favoriteTaste := strings.TrimSpace(ele.Children().Eq(5).Text())
+	dislikedTaste := strings.TrimSpace(ele.Children().Eq(6).Text())
 
 	data := &Data{
 		NameZh:            nameZh,
