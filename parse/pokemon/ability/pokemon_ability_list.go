@@ -62,7 +62,7 @@ func parsePokemonAbilityList(ctx *spider.Context) (spider.ParseResult, error) {
 
 	var result []interface{}
 	for _, value := range items {
-		result = append(result, value)
+		result = append(result, ctx.Output(global.StructToMap(value)))
 	}
 
 	return spider.ParseResult{

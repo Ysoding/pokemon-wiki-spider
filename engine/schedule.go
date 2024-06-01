@@ -22,7 +22,7 @@ type Crawler struct {
 
 	failures     map[string]*spider.Request // id -> request
 	failuresLock sync.Mutex
-
+	wg           *sync.WaitGroup
 	options
 }
 
@@ -38,6 +38,7 @@ func NewEngine(opts ...Option) *Crawler {
 		visisted: make(map[string]bool),
 		failures: make(map[string]*spider.Request),
 		options:  options,
+		wg:       &sync.WaitGroup{},
 	}
 
 	return c
@@ -69,27 +70,41 @@ func (c *Crawler) handleSeeds() {
 
 func (c *Crawler) Run() error {
 	go c.schedule()
-	var wg sync.WaitGroup
 
 	for i := 0; i < c.WorkerCount; i++ {
-		wg.Add(1)
-		go c.createWorker(&wg)
+		c.wg.Add(1)
+		go c.createWorker(c.wg)
 	}
 
 	go c.handleSeeds()
 	go c.handleResult()
-	wg.Wait()
+	c.wg.Wait()
 	return nil
 }
 
 func (c *Crawler) Shutdown() {
 	c.scheduler.Close()
+	c.wg.Wait()
+	err := c.Storage.Flush()
+	if err != nil {
+		c.Logger.Error("crawler storage flush", zap.Error(err))
+	}
 }
 
 func (c *Crawler) handleResult() {
 	for result := range c.out {
 		for _, item := range result.Items {
-			c.Logger.Sugar().Infow("crawler", "got item", item)
+			switch d := item.(type) {
+			case *spider.DataCell:
+				c.Logger.Sugar().Info("crawler", "got item", d)
+				s := c.Storage
+				if d.Task.Storage != nil {
+					s = d.Task.Storage
+				}
+				if err := s.Save(d); err != nil {
+					c.Logger.Error("storage save err:", zap.Error(err))
+				}
+			}
 		}
 	}
 }

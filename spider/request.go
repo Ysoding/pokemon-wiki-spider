@@ -21,6 +21,19 @@ type Context struct {
 	Req  *Request
 }
 
+func (c *Context) Output(data interface{}) *DataCell {
+	res := &DataCell{
+		Task: c.Req.Task,
+	}
+
+	res.Data = make(map[string]interface{})
+	res.Data["Task"] = c.Req.Task.Name
+	res.Data["Data"] = data
+	res.Data["Time"] = time.Now().Format("2006-01-02 15:04:05")
+
+	return res
+}
+
 func (r *Request) Fetch() ([]byte, error) {
 	sleepTime := rand.Int63n(r.Task.WaitTime * 1000)
 	time.Sleep(time.Duration(sleepTime))

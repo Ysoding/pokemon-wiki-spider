@@ -12,6 +12,8 @@ import (
 	"github.com/Ysoding/pokemon-wiki-spider/conf"
 	"github.com/Ysoding/pokemon-wiki-spider/engine"
 	"github.com/Ysoding/pokemon-wiki-spider/parse/pokemon"
+	mongostorage "github.com/Ysoding/pokemon-wiki-spider/storage/mongo"
+	"github.com/joho/godotenv"
 	"go.uber.org/zap"
 )
 
@@ -39,17 +41,34 @@ func run(context.Context) error {
 	logger := conf.CreateLogger()
 	defer logger.Sync()
 
+	err := godotenv.Load()
+	if err != nil {
+		logger.Error("Error loading .env file")
+		return err
+	}
+
+	mongoURI := os.Getenv("MONGO_URL")
+	storage, err := mongostorage.New(mongostorage.WithConnURI(mongoURI),
+		mongostorage.WithLogger(logger),
+		mongostorage.WithBatchCount(100))
+	if err != nil {
+		logger.Error("connect mongodb fail", zap.Error(err))
+		return err
+	}
+
 	seeds := pokemon.Tasks
 	e := engine.NewEngine(engine.WithLogger(logger),
 		engine.WithScheduler(engine.NewSchedule()),
 		engine.WithSeeds(seeds),
+		engine.WithStorage(storage),
 		engine.WithFetcher(collect.BrowserFetch{
 			Timeout: 5 * time.Second,
 			Logger:  logger,
-		}))
+		}),
+	)
 
 	go func() {
-		logger.Sugar().Infow("startup")
+		logger.Sugar().Infow("engine startup")
 		serverErrorSignal <- e.Run()
 	}()
 

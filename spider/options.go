@@ -12,6 +12,7 @@ type Options struct {
 	MaxDepth int64
 	logger   zap.Logger
 	Fetcher  Fetcher
+	Storage  Storage
 }
 
 var defaultOptions = Options{
@@ -53,5 +54,11 @@ func WithWaitTime(waitTime int64) Option {
 func WithFetcher(fetcher Fetcher) Option {
 	return func(opts *Options) {
 		opts.Fetcher = fetcher
+	}
+}
+
+func WithStorage(storage Storage) Option {
+	return func(opts *Options) {
+		opts.Storage = storage
 	}
 }
