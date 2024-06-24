@@ -174,6 +174,7 @@ func (c *Crawler) createWorker(wg *sync.WaitGroup) {
 			continue
 		}
 
+		// FIXME: ???
 		if len(body) < 6000 {
 			c.Logger.Error("can't fetch not correct length ",
 				zap.Int("length", len(body)),

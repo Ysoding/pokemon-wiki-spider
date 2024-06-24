@@ -36,6 +36,25 @@ func (db *MongoDB) InsertMany(table TableData) error {
 	return err
 }
 
+func (db *MongoDB) Find(tableName string, filter interface{}, result interface{}) error {
+	collection := db.client.Database(db.dbName).Collection(tableName)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	cursor, err := collection.Find(ctx, filter)
+	if err != nil {
+		return err
+	}
+	defer cursor.Close(ctx)
+
+	if err := cursor.All(ctx, result); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func New(opts ...Option) (*MongoDB, error) {
 	options := defaultOptions
 	for _, opt := range opts {

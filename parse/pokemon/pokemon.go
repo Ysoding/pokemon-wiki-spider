@@ -5,10 +5,11 @@ import (
 )
 
 var Tasks = []*spider.Task{
-	PokemonListTask,
+	// PokemonListTask,
 	// ability.PokemonAbilityListTask,
 	// ability.AbilityListTask,
 	// nature.PokemonNatureListTask,
 	// move.MoveListTask,
 	// item.ItemListTask,
+	PokemonDetailTask,
 }

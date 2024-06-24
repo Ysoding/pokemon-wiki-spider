@@ -11,7 +11,7 @@ import (
 	"github.com/Ysoding/pokemon-wiki-spider/spider"
 )
 
-type Data struct {
+type PokemonListData struct {
 	Index      int
 	NameZh     string
 	NameJa     string
@@ -24,7 +24,7 @@ type Data struct {
 
 var PokemonListTask = &spider.Task{
 	Options: spider.Options{
-		Name:     "pokemon_list",
+		Name:     global.PokemonListTaskName,
 		Cookie:   "",
 		MaxDepth: 5,
 		WaitTime: 3,
@@ -48,7 +48,7 @@ var PokemonListTask = &spider.Task{
 }
 
 func ParsePokemonList(ctx *spider.Context) (spider.ParseResult, error) {
-	var items []*Data
+	var items []*PokemonListData
 
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(ctx.Body))
 	if err != nil {
@@ -70,7 +70,7 @@ func ParsePokemonList(ctx *spider.Context) (spider.ParseResult, error) {
 	}, nil
 }
 
-func parseElement(ele *goquery.Selection, generation int) (*Data, error) {
+func parseElement(ele *goquery.Selection, generation int) (*PokemonListData, error) {
 
 	indexStr := strings.TrimSpace(ele.Find("td").Eq(0).Text())
 	index, err := strconv.Atoi(strings.ReplaceAll(indexStr, "#", ""))
@@ -95,7 +95,7 @@ func parseElement(ele *goquery.Selection, generation int) (*Data, error) {
 		type2 = strings.TrimSpace(type2Ele.Text())
 	}
 
-	data := &Data{
+	data := &PokemonListData{
 		Index:      index,
 		NameZh:     nameZh,
 		NameJa:     nameJa,
@@ -109,8 +109,8 @@ func parseElement(ele *goquery.Selection, generation int) (*Data, error) {
 	return data, nil
 }
 
-func getData(doc *goquery.Document, locationName string, generation int) []*Data {
-	var res []*Data
+func getData(doc *goquery.Document, locationName string, generation int) []*PokemonListData {
+	var res []*PokemonListData
 
 	doc.Find(".s-" + locationName + " > tbody > tr").Each(func(i int, s *goquery.Selection) {
 		if i < 2 {

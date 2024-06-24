@@ -1,14 +1,16 @@
 package pokemon
 
 import (
-	"bytes"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/Ysoding/pokemon-wiki-spider/db/mongodb"
 	"github.com/Ysoding/pokemon-wiki-spider/global"
 	"github.com/Ysoding/pokemon-wiki-spider/spider"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type PokemonDetailData struct {
@@ -24,50 +26,71 @@ type PokemonDetailData struct {
 
 var PokemonDetailTask = &spider.Task{
 	Options: spider.Options{
-		Name:     "pokemon_detail",
+		Name:     global.PokemonDetailTaskName,
 		Cookie:   "",
 		MaxDepth: 5,
 		WaitTime: 3,
 	},
 	Rule: spider.RuleTree{
 		Root: func() ([]*spider.Request, error) {
-			roots := []*spider.Request{
-				{
-					URL:      global.PokemonListURL,
-					Method:   "GET",
-					RuleName: "list",
-				},
-			}
-			return roots, nil
+			return roots()
 		},
 
 		Trunk: map[string]*spider.Rule{
-			"list": {ParseFunc: parsePokemonDetail},
+			"parse": {ParseFunc: parsePokemonDetail},
 		},
 	},
 }
 
 func parsePokemonDetail(ctx *spider.Context) (spider.ParseResult, error) {
-	var items []*PokemonDetailData
+	// TODO: parse
+	// var items []*PokemonDetailData
 
-	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(ctx.Body))
-	if err != nil {
-		return spider.ParseResult{}, err
-	}
+	// doc, err := goquery.NewDocumentFromReader(bytes.NewReader(ctx.Body))
+	// if err != nil {
+	// 	return spider.ParseResult{}, err
+	// }
 
-	for idx, location := range global.LocationNameList {
-		items = append(items, getPokemonDetailData(doc, location, idx+1)...)
-	}
+	// for idx, location := range global.LocationNameList {
+	// 	items = append(items, getPokemonDetailData(doc, location, idx+1)...)
+	// }
 
-	var result []interface{}
-	for _, value := range items {
-		result = append(result, ctx.Output(global.StructToMap(value)))
-	}
+	// var result []interface{}
+	// for _, value := range items {
+	// 	result = append(result, ctx.Output(global.StructToMap(value)))
+	// }
 
+	fmt.Println("TODO")
 	return spider.ParseResult{
 		Requesrts: make([]*spider.Request, 0),
-		Items:     result,
+		Items:     make([]interface{}, 0),
 	}, nil
+}
+
+func roots() ([]*spider.Request, error) {
+	// select all pokemon from mongodb
+	// create new parse detail task for every pokemon
+	db, err := mongodb.New(mongodb.WithConnURI(os.Getenv("MONGO_URL")),
+		mongodb.WithDatabaseName(global.DefaultMongoDatabaseName))
+	if err != nil {
+		return nil, err
+	}
+
+	var pokmonListData []PokemonListData
+	if err := db.Find(global.PokemonListTaskName, bson.D{}, &pokmonListData); err != nil {
+		return nil, err
+	}
+
+	var requesrts []*spider.Request
+	for _, d := range pokmonListData {
+		requesrts = append(requesrts, &spider.Request{
+			URL:      fmt.Sprintf("https://wiki.52poke.com/zh-hans/%s", d.NameZh),
+			Method:   "GET",
+			RuleName: "parse",
+		})
+	}
+
+	return requesrts, nil
 }
 
 func parsePokemonDetailElement(ele *goquery.Selection, generation int) (*PokemonDetailData, error) {
