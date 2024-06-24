@@ -85,10 +85,13 @@ func (c *Crawler) Run() error {
 func (c *Crawler) Shutdown() {
 	c.scheduler.Close()
 	c.wg.Wait()
-	err := c.Storage.Flush()
-	if err != nil {
-		c.Logger.Error("crawler storage flush", zap.Error(err))
+	if c.Storage != nil {
+		err := c.Storage.Flush()
+		if err != nil {
+			c.Logger.Error("crawler storage flush", zap.Error(err))
+		}
 	}
+
 }
 
 func (c *Crawler) handleResult() {
@@ -97,12 +100,14 @@ func (c *Crawler) handleResult() {
 			switch d := item.(type) {
 			case *spider.DataCell:
 				c.Logger.Sugar().Info("crawler", "got item", d)
-				s := c.Storage
-				if d.Task.Storage != nil {
-					s = d.Task.Storage
-				}
-				if err := s.Save(d); err != nil {
-					c.Logger.Error("storage save err:", zap.Error(err))
+				if c.Storage != nil {
+					s := c.Storage
+					if d.Task.Storage != nil {
+						s = d.Task.Storage
+					}
+					if err := s.Save(d); err != nil {
+						c.Logger.Error("storage save err:", zap.Error(err))
+					}
 				}
 			}
 		}

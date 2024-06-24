@@ -1,6 +1,7 @@
 package global
 
 var (
+	EnableMongoDB            = true
 	DefaultMongoDatabaseName = "pokemon"
 	DefaultBatchCount        = 100
 	PokemonListURL           = "https://wiki.52poke.com/wiki/宝可梦列表（按全国图鉴编号）"

@@ -11,7 +11,9 @@ import (
 	"github.com/Ysoding/pokemon-wiki-spider/collect"
 	"github.com/Ysoding/pokemon-wiki-spider/conf"
 	"github.com/Ysoding/pokemon-wiki-spider/engine"
+	"github.com/Ysoding/pokemon-wiki-spider/global"
 	"github.com/Ysoding/pokemon-wiki-spider/parse/pokemon"
+	"github.com/Ysoding/pokemon-wiki-spider/spider"
 	mongostorage "github.com/Ysoding/pokemon-wiki-spider/storage/mongo"
 	"github.com/joho/godotenv"
 	"go.uber.org/zap"
@@ -47,13 +49,16 @@ func run(context.Context) error {
 		return err
 	}
 
-	mongoURI := os.Getenv("MONGO_URL")
-	storage, err := mongostorage.New(mongostorage.WithConnURI(mongoURI),
-		mongostorage.WithLogger(logger),
-		mongostorage.WithBatchCount(100))
-	if err != nil {
-		logger.Error("connect mongodb fail", zap.Error(err))
-		return err
+	var storage spider.Storage
+	if global.EnableMongoDB {
+		mongoURI := os.Getenv("MONGO_URL")
+		storage, err = mongostorage.New(mongostorage.WithConnURI(mongoURI),
+			mongostorage.WithLogger(logger),
+			mongostorage.WithBatchCount(100))
+		if err != nil {
+			logger.Error("connect mongodb fail", zap.Error(err))
+			return err
+		}
 	}
 
 	seeds := pokemon.Tasks
