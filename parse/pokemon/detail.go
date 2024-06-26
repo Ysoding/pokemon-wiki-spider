@@ -17,14 +17,67 @@ import (
 )
 
 type PokemonDetailData struct {
-	Index      int
-	NameZh     string
-	NameJa     string
-	NameEn     string
-	Form       string // 地区形态
-	Type1      string
-	Type2      string
-	Generation int
+	Index                          int
+	NameZh                         string
+	ImgURL                         string
+	Type                           string
+	Category                       string
+	Ability                        string
+	Height                         string
+	Weight                         string
+	BodyStyle                      string
+	CatchRate                      string
+	GenderRatio                    string
+	EggGroup1                      string
+	EggGroup2                      string
+	HatchTime                      string
+	EffortValue                    string
+	BaseStat                       BaseStat
+	LearnSetByLevelingUpList       []LearnSetByLevelingUp
+	LearnSetByTechnicalMachineList []LearnSetByTechnicalMachine
+	LearnSetByBreedingList         []LearnSetByBreeding
+}
+
+type BaseStat struct {
+	HP        int
+	Attack    int
+	Defense   int
+	SpAttack  int
+	SpDefense int
+	Speed     int
+	Total     int
+	Average   float32
+}
+
+type LearnSetByLevelingUp struct {
+	Level    string
+	Move     string
+	Type     string
+	Category string
+	Power    string
+	Accuracy string
+	PP       string
+}
+
+type LearnSetByTechnicalMachine struct {
+	ImgUrl           string
+	TechnicalMachine string
+	Move             string
+	Type             string
+	Category         string
+	Power            string
+	Accuracy         string
+	PP               string
+}
+
+type LearnSetByBreeding struct {
+	Parent   string
+	Move     string
+	Type     string
+	Category string
+	Power    string
+	Accuracy string
+	PP       string
 }
 
 var PokemonDetailTask = &spider.Task{
