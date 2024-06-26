@@ -1,6 +1,9 @@
 package spider
 
-import "go.uber.org/zap"
+import (
+	"github.com/Ysoding/pokemon-wiki-spider/limiter"
+	"go.uber.org/zap"
+)
 
 type Option func(opts *Options)
 
@@ -10,13 +13,14 @@ type Options struct {
 	Cookie   string
 	WaitTime int64 // second
 	MaxDepth int64
-	logger   zap.Logger
+	logger   *zap.Logger
 	Fetcher  Fetcher
 	Storage  Storage
+	Limit    limiter.RateLimiter
 }
 
 var defaultOptions = Options{
-	logger:   *zap.NewNop(),
+	logger:   zap.NewNop(),
 	WaitTime: 5,
 	MaxDepth: 5,
 }
@@ -29,7 +33,7 @@ func WithName(name string) Option {
 
 func WithLogger(logger *zap.Logger) Option {
 	return func(opts *Options) {
-		opts.logger = *logger
+		opts.logger = logger
 	}
 }
 
@@ -60,5 +64,11 @@ func WithFetcher(fetcher Fetcher) Option {
 func WithStorage(storage Storage) Option {
 	return func(opts *Options) {
 		opts.Storage = storage
+	}
+}
+
+func WithLimit(limiter limiter.RateLimiter) Option {
+	return func(opts *Options) {
+		opts.Limit = limiter
 	}
 }

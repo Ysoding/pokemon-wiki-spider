@@ -1,6 +1,7 @@
 package engine
 
 import (
+	"context"
 	"runtime/debug"
 	"sync"
 
@@ -91,7 +92,6 @@ func (c *Crawler) Shutdown() {
 			c.Logger.Error("crawler storage flush", zap.Error(err))
 		}
 	}
-
 }
 
 func (c *Crawler) handleResult() {
@@ -163,6 +163,16 @@ func (c *Crawler) createWorker(wg *sync.WaitGroup) {
 
 		c.storeVisited(req)
 
+		if req.Task.Limit != nil {
+			c.Logger.Info("limiter", zap.Any("", req.Task.Limit))
+			if err := req.Task.Limit.Wait(context.TODO()); err != nil {
+				c.Logger.Error("limiter wait error ",
+					zap.Error(err),
+				)
+				continue
+			}
+		}
+
 		c.Logger.Info("start fetch body", zap.String("URL", req.URL))
 		body, err := req.Fetch()
 		if err != nil {
@@ -174,7 +184,6 @@ func (c *Crawler) createWorker(wg *sync.WaitGroup) {
 			continue
 		}
 
-		// FIXME: ???
 		if len(body) < 6000 {
 			c.Logger.Error("can't fetch not correct length ",
 				zap.Int("length", len(body)),

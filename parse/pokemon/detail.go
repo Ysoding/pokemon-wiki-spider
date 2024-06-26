@@ -5,12 +5,15 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/Ysoding/pokemon-wiki-spider/db/mongodb"
 	"github.com/Ysoding/pokemon-wiki-spider/global"
+	"github.com/Ysoding/pokemon-wiki-spider/limiter"
 	"github.com/Ysoding/pokemon-wiki-spider/spider"
 	"go.mongodb.org/mongo-driver/bson"
+	"golang.org/x/time/rate"
 )
 
 type PokemonDetailData struct {
@@ -30,6 +33,9 @@ var PokemonDetailTask = &spider.Task{
 		Cookie:   "",
 		MaxDepth: 5,
 		WaitTime: 3,
+		Limit: limiter.Multi(
+			rate.NewLimiter(limiter.Per(1, 1*time.Second), 1),
+		),
 	},
 	Rule: spider.RuleTree{
 		Root: func() ([]*spider.Request, error) {
@@ -60,7 +66,6 @@ func parsePokemonDetail(ctx *spider.Context) (spider.ParseResult, error) {
 	// 	result = append(result, ctx.Output(global.StructToMap(value)))
 	// }
 
-	fmt.Println("TODO")
 	return spider.ParseResult{
 		Requesrts: make([]*spider.Request, 0),
 		Items:     make([]interface{}, 0),
