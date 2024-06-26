@@ -27,7 +27,7 @@ var PokemonListTask = &spider.Task{
 		Name:     global.PokemonListTaskName,
 		Cookie:   "",
 		MaxDepth: 5,
-		WaitTime: 3,
+		WaitTime: 0,
 	},
 	Rule: spider.RuleTree{
 		Root: func() ([]*spider.Request, error) {

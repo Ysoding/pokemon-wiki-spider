@@ -36,7 +36,7 @@ func (c *Context) Output(data interface{}) *DataCell {
 
 func (r *Request) Fetch() ([]byte, error) {
 	sleepTime := rand.Int63n(r.Task.WaitTime * 1000)
-	time.Sleep(time.Duration(sleepTime))
+	time.Sleep(time.Duration(sleepTime) * time.Millisecond)
 
 	return r.Task.Fetcher.Get(r)
 }

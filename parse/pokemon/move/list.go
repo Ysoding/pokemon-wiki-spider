@@ -30,7 +30,7 @@ var MoveListTask = &spider.Task{
 		Name:     "move_list",
 		Cookie:   "",
 		MaxDepth: 5,
-		WaitTime: 3,
+		WaitTime: 0,
 	},
 	Rule: spider.RuleTree{
 		Root: func() ([]*spider.Request, error) {
