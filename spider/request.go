@@ -14,6 +14,7 @@ type Request struct {
 	Method   string
 	RuleName string
 	Depth    int64
+	TempData *TempData
 }
 
 type Context struct {

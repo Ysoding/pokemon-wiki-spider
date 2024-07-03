@@ -1,6 +1,8 @@
 package global
 
-import "reflect"
+import (
+	"reflect"
+)
 
 func StructToMap(data interface{}) map[string]interface{} {
 	result := make(map[string]interface{})

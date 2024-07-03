@@ -12,6 +12,8 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 )
 
+require github.com/stretchr/testify v1.9.0 // indirect
+
 require (
 	github.com/andybalholm/cascadia v1.3.2 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
