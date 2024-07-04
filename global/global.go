@@ -1,7 +1,7 @@
 package global
 
 var (
-	EnableMongoDB            = false
+	EnableMongoDB            = true
 	DefaultMongoDatabaseName = "pokemon"
 	DefaultBatchCount        = 100
 	PokemonListURL           = "https://wiki.52poke.com/wiki/宝可梦列表（按全国图鉴编号）"
@@ -11,8 +11,10 @@ var (
 	PokemonMoveListURL       = "https://wiki.52poke.com/zh-hans/招式列表"
 	PokemonItemListURL       = "https://wiki.52poke.com/zh-hans/道具列表"
 
-	PokemonListTaskName   = "pokemon_list"
-	PokemonDetailTaskName = "pokemon_detail"
+	PokemonListTaskName    = "pokemon_list"
+	PokemonDetailTaskName  = "pokemon_detail"
+	PokemonMoveListName    = "move_list"
+	PokemonAbilityListName = "ability_list"
 
 	DefaultWorkerCount = 16
 

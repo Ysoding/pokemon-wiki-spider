@@ -139,7 +139,7 @@ func roots() ([]*spider.Request, error) {
 		requesrts = append(requesrts, req)
 	}
 
-	return requesrts[0:2], nil
+	return requesrts, nil
 }
 
 func parsePokemonDetail(ctx *spider.Context) (spider.ParseResult, error) {

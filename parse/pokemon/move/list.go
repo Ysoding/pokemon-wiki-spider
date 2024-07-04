@@ -11,7 +11,7 @@ import (
 	"github.com/Ysoding/pokemon-wiki-spider/spider"
 )
 
-type Data struct {
+type MoveListData struct {
 	Index       int
 	NameZh      string
 	NameJa      string
@@ -27,7 +27,7 @@ type Data struct {
 
 var MoveListTask = &spider.Task{
 	Options: spider.Options{
-		Name:     "move_list",
+		Name:     global.PokemonMoveListName,
 		Cookie:   "",
 		MaxDepth: 5,
 		WaitTime: 0,
@@ -51,7 +51,7 @@ var MoveListTask = &spider.Task{
 }
 
 func ParsePokemonMoveList(ctx *spider.Context) (spider.ParseResult, error) {
-	var items []*Data
+	var items []*MoveListData
 
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(ctx.Body))
 	if err != nil {
@@ -73,7 +73,7 @@ func ParsePokemonMoveList(ctx *spider.Context) (spider.ParseResult, error) {
 	}, nil
 }
 
-func parseElement(ele *goquery.Selection) (*Data, error) {
+func parseElement(ele *goquery.Selection) (*MoveListData, error) {
 
 	indexStr := strings.TrimSpace(ele.Children().Eq(0).Text())
 	index, err := strconv.Atoi(indexStr)
@@ -91,7 +91,7 @@ func parseElement(ele *goquery.Selection) (*Data, error) {
 	pp := strings.TrimSpace(ele.Children().Eq(8).Text())
 	desc := strings.TrimSpace(ele.Children().Eq(9).Text())
 
-	data := &Data{
+	data := &MoveListData{
 		Index:       index,
 		NameZh:      nameZh,
 		NameJa:      nameJa,
@@ -107,8 +107,8 @@ func parseElement(ele *goquery.Selection) (*Data, error) {
 	return data, nil
 }
 
-func getData(doc *goquery.Document, locationName string, generation int) []*Data {
-	var res []*Data
+func getData(doc *goquery.Document, locationName string, generation int) []*MoveListData {
+	var res []*MoveListData
 
 	doc.Find(".bg-" + locationName + " > tbody > tr").Each(func(i int, s *goquery.Selection) {
 		data, err := parseElement(s)

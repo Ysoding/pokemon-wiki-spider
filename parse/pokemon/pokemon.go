@@ -1,6 +1,7 @@
 package pokemon
 
 import (
+	"github.com/Ysoding/pokemon-wiki-spider/parse/pokemon/ability"
 	"github.com/Ysoding/pokemon-wiki-spider/spider"
 )
 
@@ -11,5 +12,7 @@ var Tasks = []*spider.Task{
 	// nature.PokemonNatureListTask,
 	// move.MoveListTask,
 	// item.ItemListTask,
-	PokemonDetailTask,
+	// PokemonDetailTask,
+	// move.MoveDetailTask,
+	ability.MoveDetailTask,
 }

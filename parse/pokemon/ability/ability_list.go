@@ -24,7 +24,7 @@ type AbilityData struct {
 
 var AbilityListTask = &spider.Task{
 	Options: spider.Options{
-		Name:     "ability_list",
+		Name:     global.PokemonAbilityListName,
 		Cookie:   "",
 		MaxDepth: 5,
 		WaitTime: 0,
