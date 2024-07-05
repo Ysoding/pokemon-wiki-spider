@@ -155,7 +155,7 @@ func parsePokemonDetail(ctx *spider.Context) (spider.ParseResult, error) {
 	table := doc.Find("#mw-content-text > .mw-parser-output > table").Eq(1)
 
 	imgURL := ""
-	if img := table.Find(fmt.Sprintf("img[alt^=%s]", indexStr)).First(); img.Length() != 0 {
+	if img := table.Find(fmt.Sprintf("img[alt^='%s']", indexStr)).First(); img.Length() != 0 {
 		imgURL = img.AttrOr("data-url", "")
 		imgURL = strings.Replace(imgURL, "//media.52poke.com", "https://s1.52poke.wiki", 1)
 	}
