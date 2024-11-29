@@ -2,7 +2,7 @@
 
 
 
-> 数据在data目录
+> see data directory
 
 ## Run
 
